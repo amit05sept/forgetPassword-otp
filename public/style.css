@@ -1,0 +1,24 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.navList{
+ width: 30rem;
+}
+
+.navItems{
+    display: flex;
+    justify-content: space-between;
+}
+
+.error{
+    color:red;
+}

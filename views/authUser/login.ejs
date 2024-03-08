@@ -1,0 +1,63 @@
+<%- include('../partials/header'); -%>
+<form>
+  <div>
+    <div>
+      <label for="email">Email</label>
+      <input type="text" id="email" placeholder="Email" autofocus required />
+    </div>
+    <div class="email error"></div>
+    <div>
+      <label for="Password">Password</label>
+      <input id="password" type="password" placeholder="* * * *" required />
+    </div>
+    <div class="password error"></div>
+    <button type="submit">Log in</button>
+    <div>
+      <span>Create a new account </span>
+      <a href="/user/signup">Sign up</a>
+    </div>
+  </div>
+</form>
+<li style=" list-style-type: none"><a href="/user/forget-password">Forget Password?</a></li>
+<script>
+
+  const form = document.querySelector("form");
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = this.email.value;
+    const password = this.password.value;
+
+    console.log(email, password);
+
+    // reseting the error
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    // api call "/user/login" -> post request
+    try {
+      const url = "/user/login";
+      const res = await fetch(url,{
+        method:'POST',
+        body:JSON.stringify( {
+            email,
+            password,
+          }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      // console.log(data);
+      if(data.email || data.password){
+        emailError.textContent = data["email"];
+        passwordError.textContent = data["password"];
+      }else{
+        location.assign("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
+<%- include('../partials/footer'); -%>
